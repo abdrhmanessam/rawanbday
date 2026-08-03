@@ -1,0 +1,573 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, viewport-fit=cover">
+<title>Rawan's Birthday</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --pink:#FF2E93;
+    --hotpink:#FF5FA2;
+    --purple:#8B2FE0;
+    --violet:#B341FF;
+    --gold:#FFC700;
+    --orange:#FF7A3D;
+    --plum:#2D1B4E;
+    --teal:#00D9C6;
+    --lime:#B4FF39;
+    --cream:#FFF6EE;
+    --card:#FFFFFF;
+    --safe-top: env(safe-area-inset-top, 0px);
+    --safe-bottom: env(safe-area-inset-bottom, 0px);
+  }
+  *{box-sizing:border-box; -webkit-tap-highlight-color: transparent;}
+  html,body{
+    margin:0; padding:0; height:100%;
+    background:var(--plum);
+    font-family:'Poppins', sans-serif;
+    overscroll-behavior-y: none;
+  }
+  body{
+    display:flex; justify-content:center;
+    background:linear-gradient(180deg,#2D1B4E, #1A0F2E);
+  }
+  /* Phone-shaped app frame, but fills device fully on an actual iPhone */
+  #app-frame{
+    width:100%;
+    max-width:430px;
+    min-height:100vh;
+    min-height:100dvh;
+    background:var(--cream);
+    position:relative;
+    overflow:hidden;
+    box-shadow:0 0 60px rgba(0,0,0,0.5);
+  }
+
+  /* ---------- LOGIN SCREEN ---------- */
+  #login-screen{
+    position:absolute; inset:0;
+    display:flex; flex-direction:column; align-items:center; justify-content:center;
+    padding: calc(var(--safe-top) + 24px) 28px calc(var(--safe-bottom) + 24px);
+    background:
+      radial-gradient(circle at 15% 10%, rgba(255,199,0,0.55), transparent 42%),
+      radial-gradient(circle at 90% 15%, rgba(0,217,198,0.45), transparent 40%),
+      radial-gradient(circle at 90% 85%, rgba(180,255,57,0.28), transparent 38%),
+      radial-gradient(circle at 10% 90%, rgba(255,95,162,0.5), transparent 45%),
+      linear-gradient(155deg, #FF2E93, #B341FF 45%, #8B2FE0 75%, #2D1B4E);
+    z-index:20;
+    text-align:center;
+    transition: opacity .5s ease, visibility .5s ease;
+    overflow:hidden;
+  }
+  #login-screen.hidden{ opacity:0; visibility:hidden; pointer-events:none; }
+
+  .confetti-dot{
+    position:absolute; border-radius:50%; opacity:.85; pointer-events:none;
+    animation: floaty 6s ease-in-out infinite;
+  }
+  @keyframes floaty{
+    0%,100%{ transform:translateY(0) rotate(0deg); }
+    50%{ transform:translateY(-18px) rotate(180deg); }
+  }
+
+  .balloon-emoji{ font-size:52px; margin-bottom:6px; filter: drop-shadow(0 8px 14px rgba(0,0,0,.25)); }
+
+  .login-eyebrow{
+    color:rgba(255,255,255,0.85);
+    letter-spacing:3px;
+    font-size:12px;
+    font-weight:600;
+    text-transform:uppercase;
+    margin-bottom:10px;
+  }
+  .login-title{
+    font-family:'Poppins', sans-serif;
+    font-weight:800;
+    font-size:34px;
+    line-height:1.15;
+    color:#fff;
+    margin:0 0 8px;
+    text-shadow:0 4px 18px rgba(0,0,0,0.25);
+  }
+  .login-title span{
+    background:linear-gradient(90deg, var(--gold), var(--lime));
+    -webkit-background-clip:text;
+    background-clip:text;
+    color:transparent;
+  }
+  .login-sub{
+    color:rgba(255,255,255,0.85);
+    font-size:14.5px;
+    font-weight:400;
+    margin-bottom:34px;
+    max-width:280px;
+  }
+
+  .login-card{
+    width:100%;
+    background:rgba(255,255,255,0.16);
+    backdrop-filter: blur(18px);
+    -webkit-backdrop-filter: blur(18px);
+    border:1.5px solid rgba(255,255,255,0.45);
+    border-radius:26px;
+    padding:26px 22px;
+    box-shadow:0 20px 45px rgba(139,47,224,0.35);
+  }
+  .login-label{
+    display:block; text-align:left;
+    color:#fff; font-size:13px; font-weight:600;
+    margin-bottom:8px; letter-spacing:.3px;
+  }
+  #password-input{
+    width:100%;
+    padding:15px 16px;
+    border-radius:14px;
+    border:none;
+    outline:none;
+    font-family:'Poppins', sans-serif;
+    font-size:20px;
+    letter-spacing:6px;
+    text-align:center;
+    background:#fff;
+    color:var(--plum);
+    font-weight:600;
+  }
+  #password-input::placeholder{ letter-spacing:1px; font-size:14px; color:#b6a9c9; font-weight:400;}
+
+  #login-btn{
+    margin-top:16px;
+    width:100%;
+    padding:16px;
+    border:none;
+    border-radius:16px;
+    background:linear-gradient(120deg, var(--gold), var(--orange) 55%, var(--pink));
+    background-size:200% 100%;
+    color:#3a1400;
+    font-family:'Poppins', sans-serif;
+    font-weight:800;
+    font-size:16.5px;
+    letter-spacing:.3px;
+    cursor:pointer;
+    box-shadow:0 14px 28px rgba(255,122,61,0.4);
+    transition:transform .15s ease, box-shadow .15s ease, background-position .3s ease;
+  }
+  #login-btn:hover{ background-position:100% 0; }
+  #login-btn:active{ transform:scale(0.97); }
+
+  #login-error{
+    margin-top:14px;
+    color:#FFE1EA;
+    background:rgba(255,60,110,0.28);
+    border:1px solid rgba(255,255,255,0.3);
+    border-radius:10px;
+    padding:9px 12px;
+    font-size:13px;
+    font-weight:500;
+    display:none;
+  }
+  #login-error.show{ display:block; animation: shake .35s ease; }
+  @keyframes shake{
+    0%,100%{ transform:translateX(0); }
+    25%{ transform:translateX(-6px); }
+    75%{ transform:translateX(6px); }
+  }
+
+  /* ---------- MAIN APP ---------- */
+  #main-app{
+    position:absolute; inset:0;
+    overflow-y:auto;
+    -webkit-overflow-scrolling: touch;
+    opacity:0;
+    transition: opacity .5s ease;
+  }
+  #main-app.visible{ opacity:1; }
+
+  /* Header */
+  #app-header{
+    position:sticky; top:0; z-index:10;
+    display:flex; align-items:center; justify-content:space-between;
+    padding: calc(var(--safe-top) + 14px) 18px 16px;
+    background:linear-gradient(120deg, var(--pink), var(--violet) 55%, var(--purple));
+    box-shadow:0 8px 22px rgba(139,47,224,0.35);
+  }
+  .account-box{
+    display:flex; align-items:center; gap:10px;
+    background:rgba(255,255,255,0.22);
+    padding:6px 16px 6px 6px;
+    border-radius:100px;
+    border:1.5px solid rgba(255,255,255,0.4);
+  }
+  .avatar{
+    width:38px; height:38px; border-radius:50%;
+    background:linear-gradient(135deg,var(--gold), var(--orange));
+    display:flex; align-items:center; justify-content:center;
+    font-weight:800; color:#3a1400; font-size:16px;
+    flex-shrink:0;
+    box-shadow:0 4px 10px rgba(255,122,61,0.4);
+  }
+  .account-text{ display:flex; flex-direction:column; line-height:1.1; }
+  .account-name{ color:#fff; font-weight:700; font-size:14px; }
+  .account-tag{ color:rgba(255,255,255,0.8); font-size:11px; font-weight:400; }
+
+  #logout-btn{
+    width:40px; height:40px;
+    border-radius:50%;
+    border:none;
+    background:rgba(255,255,255,0.18);
+    border:1px solid rgba(255,255,255,0.35);
+    display:flex; align-items:center; justify-content:center;
+    cursor:pointer;
+    color:#fff;
+    flex-shrink:0;
+    transition: background .15s ease, transform .15s ease;
+  }
+  #logout-btn:active{ transform:scale(0.9); background:rgba(255,255,255,0.32); }
+
+  /* Section titles */
+  .section-title{
+    padding: 26px 18px 4px;
+    font-weight:800;
+    font-size:20px;
+    background:linear-gradient(90deg, var(--pink), var(--purple));
+    -webkit-background-clip:text;
+    background-clip:text;
+    color:transparent;
+    display:inline-block;
+  }
+  .section-sub{
+    padding: 0 18px 16px;
+    font-size:13px;
+    color:#9c86b8;
+    font-weight:500;
+  }
+
+  /* Photo swipe carousel */
+  #gallery{
+    display:flex;
+    gap:16px;
+    overflow-x:auto;
+    scroll-snap-type:x mandatory;
+    padding: 6px 8% 20px;
+    -webkit-overflow-scrolling: touch;
+  }
+  #gallery::-webkit-scrollbar{ display:none; }
+  .gallery-card{
+    scroll-snap-align:center;
+    flex:0 0 84%;
+    border-radius:26px;
+    overflow:hidden;
+    position:relative;
+    box-shadow:0 16px 34px rgba(139,47,224,0.28);
+    aspect-ratio: 3/4;
+    border:3px solid #fff;
+  }
+  .gallery-card::after{
+    content:"";
+    position:absolute; inset:0;
+    background:linear-gradient(180deg, transparent 55%, rgba(45,27,78,0.55) 100%);
+    pointer-events:none;
+  }
+  .gallery-card img{
+    width:100%; height:100%; object-fit:cover; display:block;
+  }
+  .gallery-card .tag{
+    position:absolute; left:14px; bottom:14px; z-index:2;
+    background:rgba(255,255,255,0.9);
+    color:var(--purple); font-size:12.5px; font-weight:700;
+    padding:6px 14px; border-radius:100px;
+  }
+  .gallery-card .num{
+    position:absolute; top:14px; right:14px; z-index:2;
+    background:linear-gradient(135deg, var(--gold), var(--orange));
+    color:#3a1400; font-size:12px; font-weight:800;
+    width:26px; height:26px; border-radius:50%;
+    display:flex; align-items:center; justify-content:center;
+    box-shadow:0 4px 10px rgba(0,0,0,0.2);
+  }
+  #gallery-dots{
+    display:flex; justify-content:center; gap:6px; padding-bottom:12px; flex-wrap:wrap; padding-left:18px; padding-right:18px;
+  }
+  #gallery-dots span{
+    width:7px; height:7px; border-radius:50%;
+    background:#e3cdf5;
+  }
+  #gallery-dots span.active{ background:linear-gradient(90deg,var(--pink),var(--purple)); width:20px; border-radius:4px; transition:.2s; }
+
+  .divider{
+    height:1px;
+    margin:8px 18px 4px;
+    background:linear-gradient(90deg, transparent, #e6d9f2, transparent);
+  }
+
+  /* Instagram-style posts */
+  #posts{ padding: 4px 0 6px; }
+  .post{
+    background:var(--card);
+    margin: 0 18px 24px;
+    border-radius:24px;
+    overflow:hidden;
+    box-shadow:0 12px 28px rgba(139,47,224,0.16);
+    border:1px solid #f6ecff;
+  }
+  .post-head{
+    display:flex; align-items:center; gap:10px;
+    padding:14px 16px;
+    background:linear-gradient(90deg, #fff6fb, #fbf3ff);
+  }
+  .post-head .avatar{ width:34px; height:34px; font-size:13px; }
+  .post-head .name{ font-weight:700; font-size:13.5px; color:var(--plum); }
+  .post-head .time{ font-size:11px; color:#b09bc9; }
+  .post img{ width:100%; display:block; aspect-ratio:1/1; object-fit:cover; }
+  .post-actions{
+    display:flex; align-items:center; gap:16px;
+    padding:14px 16px 6px;
+    font-size:21px;
+  }
+  .post-actions span:nth-child(1){ color:var(--pink); }
+  .post-actions span:nth-child(2){ color:var(--purple); }
+  .post-actions span:nth-child(3){ color:var(--teal); }
+  .post-actions .spacer{ flex:1; }
+  .post-caption{
+    padding: 4px 16px 18px;
+    font-size:13.5px;
+    line-height:1.6;
+    color:#453655;
+  }
+  .post-caption b{ color:var(--purple); margin-right:5px; }
+  .post-likes{ padding: 0 16px 4px; font-size:12.5px; font-weight:700; color:var(--pink); }
+
+  /* Closing message */
+  #closing{
+    margin: 10px 18px calc(40px + var(--safe-bottom));
+    border-radius:28px;
+    padding:34px 24px 32px;
+    text-align:center;
+    position:relative;
+    overflow:hidden;
+    background:
+      radial-gradient(circle at 15% 20%, rgba(255,199,0,0.5), transparent 40%),
+      radial-gradient(circle at 85% 85%, rgba(0,217,198,0.4), transparent 40%),
+      linear-gradient(155deg, var(--purple), var(--pink) 60%, var(--orange));
+    color:#fff;
+    box-shadow:0 18px 36px rgba(139,47,224,0.35);
+  }
+  #closing .cake{ font-size:44px; margin-bottom:10px; }
+  #closing h2{
+    font-family:'Poppins', sans-serif;
+    font-weight:800; font-size:22px; margin:0 0 12px;
+  }
+  #closing p{
+    font-size:14px; line-height:1.7; font-weight:400;
+    color:rgba(255,255,255,0.95);
+    margin:0 0 6px;
+  }
+  #closing .signoff{
+    margin-top:16px;
+    font-weight:700;
+    font-size:15px;
+    letter-spacing:.3px;
+  }
+
+  ::selection{ background:var(--gold); color:var(--plum); }
+</style>
+</head>
+<body>
+
+<div id="app-frame">
+
+  <!-- ============ LOGIN SCREEN ============ -->
+  <div id="login-screen">
+    <span class="confetti-dot" style="width:14px;height:14px;top:12%;left:14%;background:var(--gold);animation-delay:0s;"></span>
+    <span class="confetti-dot" style="width:10px;height:10px;top:20%;right:12%;background:var(--teal);animation-delay:.6s;"></span>
+    <span class="confetti-dot" style="width:18px;height:18px;top:68%;left:8%;background:var(--lime);animation-delay:1.2s;"></span>
+    <span class="confetti-dot" style="width:12px;height:12px;top:78%;right:16%;background:#fff;animation-delay:.3s;"></span>
+    <span class="confetti-dot" style="width:9px;height:9px;top:35%;right:22%;background:var(--gold);animation-delay:1.6s;"></span>
+    <div class="balloon-emoji">🎈🎂🎈</div>
+    <div class="login-eyebrow">You're Invited</div>
+    <h1 class="login-title">Happy Birthday<br><span>Rawan</span></h1>
+    <p class="login-sub">Enter the password to open your birthday page</p>
+
+    <div class="login-card">
+      <label class="login-label" for="password-input">Password</label>
+      <input type="password" id="password-input" inputmode="numeric" maxlength="6" placeholder="••••••" autocomplete="off">
+      <button id="login-btn">Unlock the Surprise 🎉</button>
+      <div id="login-error">Wrong password — try again 💫</div>
+    </div>
+  </div>
+
+  <!-- ============ MAIN APP ============ -->
+  <div id="main-app">
+
+    <header id="app-header">
+      <div class="account-box">
+        <div class="avatar">R</div>
+        <div class="account-text">
+          <span class="account-name">Rawan</span>
+          <span class="account-tag">Birthday account</span>
+        </div>
+      </div>
+      <button id="logout-btn" aria-label="Log out" title="Log out">
+        <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
+          <polyline points="16 17 21 12 16 7"></polyline>
+          <line x1="21" y1="12" x2="9" y2="12"></line>
+        </svg>
+      </button>
+    </header>
+
+    <h2 class="section-title">📸 Photo Memories</h2>
+    <p class="section-sub">Swipe through with your finger</p>
+    <div id="gallery"></div>
+    <div id="gallery-dots"></div>
+
+    <div class="divider"></div>
+
+    <h2 class="section-title">💬 Moments &amp; Messages</h2>
+    <p class="section-sub">A few posts just for you</p>
+    <div id="posts"></div>
+
+    <div id="closing">
+      <div class="cake">🎂✨</div>
+      <h2>Happy Birthday, My Rose!</h2>
+      <p>Happy Birthday to the most beautiful part of my life.
+      Every year with you is a blessing, and every year I watch you grow right beside me. I cherish every single day we spend together, because every day with you is happier than the one before.
+
+</p>
+      <p>God willing, by your next birthday, we'll be busy getting our apartment ready and preparing for our new life together. It'll be the sweetest kind of chaos, because it'll be the beginning of our home.</p>
+      <p>I love you so much. Happy Birthday, my love. I pray that every birthday finds you by my side, because you're the best thing that has ever happened to me. ❤️</p>
+      <div class="signoff">With so much love, always 💗</div>
+    </div>
+
+  </div>
+
+</div>
+
+<script>
+  // ---------- CONFIG ----------
+  const PASSWORD = "812417";
+
+  // Replace these with real photos any time — just swap the URLs.
+  const galleryPhotos = [
+    { src: "images/old.jpg", tag: "Forever" },
+    { src: "images/ice.jpg", tag: "Cairo" },
+    { src: "images/car.jpg", tag: "Memory" },
+    { src: "images/ta5a.jpg", tag: "Cairo Again" },
+    { src: "images/cinema.jpg", tag: "Memory 5" },
+    { src: "images/samir.jpg", tag: "Rawan&Abdelrahman" },
+    { src: "images/balacon.jpg", tag: "Memory 7" },
+    { src: "images/molto.jpg", tag: "Molto" },
+    { src: "images/dom.jpg", tag: "Memory 9" },
+    { src: "images/firstt.jpg", tag: "Memory 10" },
+    { src: "images/eid.jpg", tag: "Frist 3idia" },
+    { src: "images/Cine.jpg", tag: "3asal" },
+    { src: "images/5toba.jpg", tag: "Done" },
+  ];
+
+  const posts = [
+    {
+      img: "images/falaha.jpg",
+      caption: "Farmer vibes or just me !",
+      likes: "24 people love this"
+    },
+    {
+      img: "images/cairoviebs.jpg",
+      caption: "I still remember the day you decided to surprise me. Even though I already knew, it was such a beautiful day.",
+      likes: "31 people love this"
+    },
+    {
+      img: "images/simple.jpg",
+      caption: "I was so happy that day. I was proud of you in front of everyone.",
+      likes: "108 people love this"
+    },
+    {
+      img: "images/to77.jpg",
+      caption: "I feel so confident about my future with you, my sweetest dessert maker.",
+      likes: "42 people love this"
+    },
+    {
+      img: "images/finally.jpg",
+      caption: "The next picture will be from our Katb Ketab. ❤️",
+      likes: "27 people love this"
+    },
+  ];
+
+  // ---------- BUILD GALLERY ----------
+  const galleryEl = document.getElementById('gallery');
+  const dotsEl = document.getElementById('gallery-dots');
+  galleryPhotos.forEach((p, i) => {
+    const card = document.createElement('div');
+    card.className = 'gallery-card';
+    card.innerHTML = `<img src="${p.src}" alt="${p.tag}" loading="lazy"><span class="num">${i+1}</span><span class="tag">${p.tag}</span>`;
+    galleryEl.appendChild(card);
+
+    const dot = document.createElement('span');
+    if (i === 0) dot.className = 'active';
+    dotsEl.appendChild(dot);
+  });
+
+  galleryEl.addEventListener('scroll', () => {
+    const cardWidth = galleryEl.firstElementChild.getBoundingClientRect().width + 14;
+    const index = Math.round(galleryEl.scrollLeft / cardWidth);
+    [...dotsEl.children].forEach((d, i) => d.className = i === index ? 'active' : '');
+  }, { passive: true });
+
+  // ---------- BUILD POSTS ----------
+  const postsEl = document.getElementById('posts');
+  posts.forEach((p) => {
+    const el = document.createElement('div');
+    el.className = 'post';
+    el.innerHTML = `
+      <div class="post-head">
+        <div class="avatar">R</div>
+        <div>
+          <div class="name">rawan.bday</div>
+          <div class="time">Today</div>
+        </div>
+      </div>
+      <img src="${p.img}" alt="post photo" loading="lazy">
+      <div class="post-actions">
+        <span>♡</span><span>💬</span><span>↗</span><span class="spacer"></span><span>🔖</span>
+      </div>
+      <div class="post-likes">${p.likes}</div>
+      <div class="post-caption"><b>rawan.bday</b>${p.caption}</div>
+    `;
+    postsEl.appendChild(el);
+  });
+
+  // ---------- LOGIN LOGIC ----------
+  const loginScreen = document.getElementById('login-screen');
+  const mainApp = document.getElementById('main-app');
+  const passwordInput = document.getElementById('password-input');
+  const loginBtn = document.getElementById('login-btn');
+  const loginError = document.getElementById('login-error');
+
+  function attemptLogin(){
+    if (passwordInput.value === PASSWORD) {
+      loginError.classList.remove('show');
+      loginScreen.classList.add('hidden');
+      mainApp.classList.add('visible');
+    } else {
+      loginError.classList.add('show');
+      passwordInput.value = '';
+      passwordInput.focus();
+    }
+  }
+
+  loginBtn.addEventListener('click', attemptLogin);
+  passwordInput.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter') attemptLogin();
+  });
+
+  document.getElementById('logout-btn').addEventListener('click', () => {
+    mainApp.classList.remove('visible');
+    loginScreen.classList.remove('hidden');
+    passwordInput.value = '';
+    loginError.classList.remove('show');
+  });
+</script>
+
+</body>
+</html>
